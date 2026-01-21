@@ -76,7 +76,7 @@ public class Tileset implements DrawingObject
     /**Moves the tile set
      * @param x moves it on the x axis by this amount
      */
-    public void move(int x)
+    public void move(double x)
     {
         this.x += x;
     }

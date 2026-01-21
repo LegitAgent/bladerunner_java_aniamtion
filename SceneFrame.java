@@ -20,9 +20,9 @@
 	of my program.
 */
 
-import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import javax.swing.*;
 
 public class SceneFrame implements ActionListener
 {
@@ -30,10 +30,10 @@ public class SceneFrame implements ActionListener
     private InputHandling iH;
 
     SceneCanvas canvas;
-    int pixelsWalked = 0, pixelsWalkedLeft = -147, pixelsWalkedRight = 147;
-    int walkAnimRight = 0, walkAnimLeft = 0;
-    int backPixelsWalkedLeft = 0, backPixelsWalkedRight = 0;
-    int animationThreshold = 30;
+    double pixelsWalked = 0, pixelsWalkedLeft = -147, pixelsWalkedRight = 147;
+    double walkAnimRight = 0, walkAnimLeft = 0;
+    double backPixelsWalkedLeft = 0, backPixelsWalkedRight = 0;
+    double animationThreshold = 30;
 
     Hovercar car;
     Hovercar car2;
@@ -44,10 +44,13 @@ public class SceneFrame implements ActionListener
 
     ArrayList<Tileset> tiles;
     ArrayList<BackgroundCity> backgroundCities;
+
+    boolean key_left = false;
+    boolean key_right = false;
    
-    final int BG_MOVEMENT = 3;
-    final int CAR_MOVEMENT = 4;
-    final int BACK_BG_MOVEMENT = 1;
+    final double BG_MOVEMENT = 3;
+    final double CAR_MOVEMENT = 4;
+    final double BACK_BG_MOVEMENT = 1;
 
     /**
      Constructor method for SceneFrame. Initializes variables
@@ -118,66 +121,13 @@ public class SceneFrame implements ActionListener
         @Override
         public void keyPressed(KeyEvent e)
         {
-            car = canvas.getHovercar();
-            car2 = canvas.getHovercar2();
-            car3 = canvas.getHovercar3();
-            car4 = canvas.getHovercar4();
-
-            rg = canvas.getRyanGosling();
-
             if(e.getKeyCode() == KeyEvent.VK_LEFT)
             {
-                rg.changeState(2);
-                rg.changeXCoordinate(422);
-                car.move(CAR_MOVEMENT);
-                car2.move(CAR_MOVEMENT);
-                car3.move(CAR_MOVEMENT);
-                car4.move(CAR_MOVEMENT);
-
-                pixelsWalked -= BG_MOVEMENT;
-                walkAnimLeft += BG_MOVEMENT;
-                for(Tileset n : tiles)
-                {
-                    n.move(BG_MOVEMENT);
-                }
-                for(BackgroundCity bg : backgroundCities)
-                {
-                    bg.move(BACK_BG_MOVEMENT);
-                }
-                if(walkAnimLeft == animationThreshold)
-                {
-                    //edit frame to be walking left
-                    rg.move(0);
-                    walkAnimLeft = 0;
-                }
-
+                key_left = true;
             }
             else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
             {
-                rg.changeState(1);
-                rg.changeXCoordinate(378);
-                car.move(-CAR_MOVEMENT);
-                car2.move(-CAR_MOVEMENT);
-                car3.move(-CAR_MOVEMENT);
-                car4.move(-CAR_MOVEMENT);
-
-                pixelsWalked += BG_MOVEMENT;
-                walkAnimRight += BG_MOVEMENT;
-                for(Tileset n : tiles)
-                {
-                    n.move(-BG_MOVEMENT);
-                }
-
-                for(BackgroundCity bg : backgroundCities)
-                {
-                    bg.move(-BACK_BG_MOVEMENT);
-                }
-                
-                if(walkAnimRight == animationThreshold)
-                {
-                    rg.move(0);
-                    walkAnimRight = 0;
-                }
+                key_right = true;
             }
         }
 
@@ -188,6 +138,11 @@ public class SceneFrame implements ActionListener
         @Override
         public void keyReleased(KeyEvent e)
         {
+            if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+                key_left = false;
+            } else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                key_right = false;
+            }
             rg = canvas.getRyanGosling();
             rg.changeXCoordinate(378);
             rg.changeState(0);
@@ -212,6 +167,8 @@ public class SceneFrame implements ActionListener
         car3.constantSpeed();
         car4.constantSpeed();
 
+        rg = canvas.getRyanGosling();
+
         if(pixelsWalked >= pixelsWalkedRight)
         {
             canvas.addToTileList(canvas.generateRandomTileset(0));
@@ -232,6 +189,57 @@ public class SceneFrame implements ActionListener
         {
             canvas.generateBackgroundCity(0);
             backPixelsWalkedRight += 2400;
+        }
+
+        if(key_left) {
+            rg.changeState(2);
+            rg.changeXCoordinate(422);
+            car.move(CAR_MOVEMENT);
+            car2.move(CAR_MOVEMENT);
+            car3.move(CAR_MOVEMENT);
+            car4.move(CAR_MOVEMENT);
+
+            pixelsWalked -= BG_MOVEMENT;
+            walkAnimLeft += BG_MOVEMENT;
+            for(Tileset n : tiles)
+            {
+                n.move(BG_MOVEMENT);
+            }
+            for(BackgroundCity bg : backgroundCities)
+            {
+                bg.move(BACK_BG_MOVEMENT);
+            }
+            if(walkAnimLeft == animationThreshold)
+            {
+                //edit frame to be walking left
+                rg.move(0);
+                walkAnimLeft = 0;
+            }
+        } else if(key_right) {
+            rg.changeState(1);
+            rg.changeXCoordinate(378);
+            car.move(-CAR_MOVEMENT);
+            car2.move(-CAR_MOVEMENT);
+            car3.move(-CAR_MOVEMENT);
+            car4.move(-CAR_MOVEMENT);
+
+            pixelsWalked += BG_MOVEMENT;
+            walkAnimRight += BG_MOVEMENT;
+            for(Tileset n : tiles)
+            {
+                n.move(-BG_MOVEMENT);
+            }
+
+            for(BackgroundCity bg : backgroundCities)
+            {
+                bg.move(-BACK_BG_MOVEMENT);
+            }
+            
+            if(walkAnimRight == animationThreshold)
+            {
+                rg.move(0);
+                walkAnimRight = 0;
+            }
         }
         canvas.repaint();
         

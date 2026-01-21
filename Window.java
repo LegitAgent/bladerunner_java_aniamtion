@@ -59,7 +59,7 @@ public class Window implements DrawingObject
     /**Moves the window in the x axis by x amount
      * @param x amount to be moved in the x axis
      */
-    public void move(int x)
+    public void move(double x)
     {
         this.x += x;
     }

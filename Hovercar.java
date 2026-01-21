@@ -24,8 +24,9 @@ import java.awt.geom.AffineTransform;
 public class Hovercar implements DrawingObject{
     //Declares all variables to be used within the class
     private Color colorBody, colorHood, colorThruster;
-    private int size, x ,y, velocity;
+    private int size, x, y;
     private int distanceTriangle;
+    private double velocity;
 
     /**
      * Constructor initializes variables
@@ -94,7 +95,7 @@ public class Hovercar implements DrawingObject{
      * @param x amount to be moved
     */
     @Override
-    public void move(int x)
+    public void move(double x)
     {
         this.x += x;
     }

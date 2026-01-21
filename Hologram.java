@@ -99,7 +99,7 @@ public class Hologram implements DrawingObject
      * @param x amount to be moved
     */
     @Override
-    public void move(int x)
+    public void move(double x)
     {
         this.x += x;
     }

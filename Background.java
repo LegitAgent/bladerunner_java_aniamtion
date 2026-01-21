@@ -57,7 +57,7 @@ public class Background implements DrawingObject{
      * @param x amount for obj to be moved in x axis
     */
     @Override
-    public void move(int x)
+    public void move(double x)
     {
 	    this.x += x;
     }

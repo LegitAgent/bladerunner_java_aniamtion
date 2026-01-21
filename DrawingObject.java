@@ -31,5 +31,5 @@ public interface DrawingObject {
 	 * Moves each object by x along x axis
 	 * @param x amount to be moved
 	*/
-    public void move(int x);
+    public void move(double x);
 }

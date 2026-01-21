@@ -20,8 +20,8 @@
 */
 
 
-import java.awt.geom.*;
 import java.awt.*;
+import java.awt.geom.*;
 
 public class Trapezoid implements DrawingObject
 {
@@ -72,7 +72,7 @@ public class Trapezoid implements DrawingObject
     /**Moves the trapezoid
      * @param x moves the trapezoid on the x axis by this amount
      */
-    public void move(int x) 
+    public void move(double x) 
     {
         this.xStart += x;
     }

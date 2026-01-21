@@ -62,7 +62,7 @@ public class Line implements DrawingObject
     /**Moves the line by an amount in the x axis.
      * @param x amount to be moved
     */
-    public void move(int x) 
+    public void move(double x) 
     {
         x1 += x;
         x2 += x;

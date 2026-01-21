@@ -63,7 +63,7 @@ public class Triangle implements DrawingObject
     /**Moves the triangle
      * @param x moves it in the x axis by this amount
      */
-    public void move(int x)
+    public void move(double x)
     {
         x1 += x;
         x2 += x;

@@ -134,7 +134,7 @@ public class Building implements DrawingObject
     /** Moves the object in the x axis by x amount.
      *  @param x amount to be moved along x axis
      */
-    public void move(int x)
+    public void move(double x)
     {
         this.x += x;
     }

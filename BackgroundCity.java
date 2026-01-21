@@ -237,7 +237,7 @@ public class BackgroundCity implements DrawingObject
      *  @param x amount to be moved along x axis
      */
     @Override
-    public void move(int x) 
+    public void move(double x) 
     {
         this.x += x;
     }

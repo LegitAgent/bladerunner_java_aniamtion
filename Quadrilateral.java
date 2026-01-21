@@ -82,7 +82,7 @@ public class Quadrilateral implements DrawingObject
      * @param x amount to be moved
     */
     @Override
-    public void move(int x)
+    public void move(double x)
     {
         this.x1+=x;
         this.x2+=x;
