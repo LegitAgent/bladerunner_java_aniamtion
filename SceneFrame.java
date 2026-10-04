@@ -1,10 +1,12 @@
+
 /**
-	SceneFrame instantiates the JFrame of the project. It also contains a SceneCanvas where all drawings
-    will be made. Also contains InputHandling class to allow for keyListening
-	
-	@author Joaquin Alonzo A. Salazar (237547), Martin Darius L. Alba (230179)
-	@version February 23, 2024
-**/
+ * SceneFrame instantiates the JFrame of the project. It also contains a SceneCanvas where all drawings
+ * will be made. Also contains InputHandling class to allow for keyListening
+ *
+ * @author Joaquin Alonzo A. Salazar (237547), Martin Darius L. Alba (230179)
+ * @version February 23, 2024
+ *
+ */
 
 /*
 	I have not discussed the Java language code in my program 
@@ -18,14 +20,13 @@
 	was obtained from another source, such as a textbook or website, 
 	that has been clearly noted with a proper citation in the comments 
 	of my program.
-*/
-
+ */
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class SceneFrame implements ActionListener
-{
+public class SceneFrame implements ActionListener {
+
     private JFrame f;
     private InputHandling iH;
 
@@ -47,22 +48,21 @@ public class SceneFrame implements ActionListener
 
     boolean key_left = false;
     boolean key_right = false;
-   
+
     final double BG_MOVEMENT = 3;
     final double CAR_MOVEMENT = 4;
     final double BACK_BG_MOVEMENT = 1;
 
     /**
-     Constructor method for SceneFrame. Initializes variables
+     * Constructor method for SceneFrame. Initializes variables
      */
-    public SceneFrame() 
-    {
+    public SceneFrame() {
         f = new JFrame();
         canvas = new SceneCanvas(f);
         f.add(canvas, "Center");
 
         //Connect keyListener - from StackOverflow (Hovercraft Full Of Eels) and Stefan Kussmaul
-        iH = new InputHandling();   
+        iH = new InputHandling();
 
         f.setFocusable(true);
         f.requestFocus();
@@ -81,18 +81,17 @@ public class SceneFrame implements ActionListener
         //Background Cities
         backgroundCities = new ArrayList<>();
         backgroundCities = canvas.getBackgroundCities();
-        
+
         //Timer for canvas
         Timer timer = new Timer(10, this);
         timer.start();
     }
 
     /**
-     Mutator method to set diff. properties of JFrame
-     Add certain elements if necessary
+     * Mutator method to set diff. properties of JFrame Add certain elements if
+     * necessary
      */
-    public void setUpGUI()
-    {
+    public void setUpGUI() {
         //Information on pack from sidgate, Stack Overflow
         f.pack();
         f.setTitle("Midterm Project - Alba - Salazar");
@@ -103,44 +102,42 @@ public class SceneFrame implements ActionListener
     }
 
     /**
-     * InputHandling is a class that allows for the user to move the scene left or right. Implements KeyListener class
-     * to allow for use from arrowkeys
+     * InputHandling is a class that allows for the user to move the scene left
+     * or right. Implements KeyListener class to allow for use from arrowkeys
      */
-    public class InputHandling implements KeyListener
-    {
+    public class InputHandling implements KeyListener {
+
         @Override
-        public void keyTyped(KeyEvent e)
-        {
+        public void keyTyped(KeyEvent e) {
 
         }
 
         /**
-         * Will cause scene to move left or right depending on the Key Pressed among Left & Right arrowkeys
+         * Will cause scene to move left or right depending on the Key Pressed
+         * among Left & Right arrowkeys
+         *
          * @param e KeyEvent detected when key is pressed
          */
         @Override
-        public void keyPressed(KeyEvent e)
-        {
-            if(e.getKeyCode() == KeyEvent.VK_LEFT)
-            {
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                 key_left = true;
-            }
-            else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-            {
+            } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 key_right = true;
             }
         }
 
         /**
-         * Will cause RyanGosling to go into Idle and sets his X coordinate when left & right are not being pressed
+         * Will cause RyanGosling to go into Idle and sets his X coordinate when
+         * left & right are not being pressed
+         *
          * @param e KeyEvent detected when key is released
          */
         @Override
-        public void keyReleased(KeyEvent e)
-        {
-            if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+        public void keyReleased(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                 key_left = false;
-            } else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 key_right = false;
             }
             rg = canvas.getRyanGosling();
@@ -148,14 +145,13 @@ public class SceneFrame implements ActionListener
             rg.changeState(0);
         }
     }
-    
+
     /**
-     * Moves hovercars in scene
-     * Also handles generating random tilesets
+     * Moves hovercars in scene Also handles generating random tilesets
+     *
      * @param e Event occurring. Based on timer
      */
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
 
         car = canvas.getHovercar();
         car2 = canvas.getHovercar2();
@@ -169,29 +165,23 @@ public class SceneFrame implements ActionListener
 
         rg = canvas.getRyanGosling();
 
-        if(pixelsWalked >= pixelsWalkedRight)
-        {
+        if (pixelsWalked >= pixelsWalkedRight) {
             canvas.addToTileList(canvas.generateRandomTileset(0));
             pixelsWalkedRight += 531;
-        }
-        else if(pixelsWalked <= pixelsWalkedLeft)
-        {
+        } else if (pixelsWalked <= pixelsWalkedLeft) {
             canvas.addToTileList(canvas.generateRandomTileset(1));
             pixelsWalkedLeft -= 531;
         }
 
-        if(pixelsWalked <= backPixelsWalkedLeft)
-        {
+        if (pixelsWalked <= backPixelsWalkedLeft) {
             canvas.generateBackgroundCity(1);
             backPixelsWalkedLeft -= 2400;
-        }
-        else if(pixelsWalked >= backPixelsWalkedRight)
-        {
+        } else if (pixelsWalked >= backPixelsWalkedRight) {
             canvas.generateBackgroundCity(0);
             backPixelsWalkedRight += 2400;
         }
 
-        if(key_left) {
+        if (key_left) {
             rg.changeState(2);
             rg.changeXCoordinate(422);
             car.move(CAR_MOVEMENT);
@@ -201,21 +191,18 @@ public class SceneFrame implements ActionListener
 
             pixelsWalked -= BG_MOVEMENT;
             walkAnimLeft += BG_MOVEMENT;
-            for(Tileset n : tiles)
-            {
+            for (Tileset n : tiles) {
                 n.move(BG_MOVEMENT);
             }
-            for(BackgroundCity bg : backgroundCities)
-            {
+            for (BackgroundCity bg : backgroundCities) {
                 bg.move(BACK_BG_MOVEMENT);
             }
-            if(walkAnimLeft == animationThreshold)
-            {
+            if (walkAnimLeft == animationThreshold) {
                 //edit frame to be walking left
                 rg.move(0);
                 walkAnimLeft = 0;
             }
-        } else if(key_right) {
+        } else if (key_right) {
             rg.changeState(1);
             rg.changeXCoordinate(378);
             car.move(-CAR_MOVEMENT);
@@ -225,24 +212,22 @@ public class SceneFrame implements ActionListener
 
             pixelsWalked += BG_MOVEMENT;
             walkAnimRight += BG_MOVEMENT;
-            for(Tileset n : tiles)
-            {
+            for (Tileset n : tiles) {
                 n.move(-BG_MOVEMENT);
             }
 
-            for(BackgroundCity bg : backgroundCities)
-            {
+            for (BackgroundCity bg : backgroundCities) {
                 bg.move(-BACK_BG_MOVEMENT);
             }
-            
-            if(walkAnimRight == animationThreshold)
-            {
+
+            if (walkAnimRight == animationThreshold) {
                 rg.move(0);
                 walkAnimRight = 0;
             }
         }
         canvas.repaint();
-        
-    };
+
+    }
+;
 
 }
